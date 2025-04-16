@@ -15,7 +15,7 @@ def generate_html(table_df):
     content_cols = [col for col in table_df.columns if col not in day_col and col not in date_col]
     
     # กำหนด title ตาม type
-    title = title_mapping.get(table_type, f"ตาราง {table_type} ")
+    title = title_mapping.get(table_type, f"{table_type}")
     
     # คำนวณจำนวนคอลัมน์ (ไม่นับคอลัมน์ Day และ Date)
     num_columns = len(content_cols)
@@ -142,7 +142,7 @@ def generate_html(table_df):
         <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
     </head>
     <body>
-    <h2><center>{title}</center></h2>
+    <h2><center>ชื่อตาราง : {title}</center></h2>
     <h3><center>แผนก : {department_filter}</center></h3>
     <h3><center>ประจำเดือน : {month_name} {year_filter}</center></h3>
     <div class="table-container">

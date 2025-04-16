@@ -8,10 +8,10 @@ load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 
 # ตั้งค่าเดือนและปี
-month_filter = 11
+month_filter = 7
 year_filter = 2024
-department_filter = "วิสัญญี"  # อายุรกรรม วิสัญญี
-table_type = "คลินิคนอกเวลา"  # สามารถเปลี่ยนเป็น Transplant ตารางประจำเดือน คลินิคนอกเวลา / ตารางเวร R1
+department_filter = "วิสัญญี"  # อายุรกรรม วิสัญญี กุมารเวช
+table_type = "ตารางประจำเดือน"  # สามารถเปลี่ยนเป็น Transplant ตารางประจำเดือน คลินิคนอกเวลา / Gastoenterology ตารางเวร R1 Resident Neurology
 
 # ตั้งค่า path สำหรับ wkhtmltoimage
 WKHTMLTOIMAGE_PATH = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe"
@@ -25,8 +25,5 @@ month_names = {
 
 # ตั้งค่าหัวข้อตามประเภทตาราง
 title_mapping = {
-    "คลินิคนอกเวลา": "ตารางเวรแพทย์ ผู้ป่วยนอก",
-    "Transplant": "ตารางเวรแพทย์ Transplant",
-    "ตารางประจำเดือน": "ตารางเวรแพทย์ ประจำเดือน"
-    # เพิ่มประเภทอื่นๆ ตามต้องการ
+    "คลินิคนอกเวลา": "ผู้ป่วยนอก",
 }
