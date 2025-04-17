@@ -8,10 +8,10 @@ load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI")
 
 # ตั้งค่าเดือนและปี
-month_filter = 12
+month_filter = 3
 year_filter = 2024
 department_filter = "อายุรกรรม"  # อายุรกรรม วิสัญญี กุมารเวช
-table_type = "ตารางเวร R3"  # สามารถเปลี่ยนเป็น Transplant ตารางประจำเดือน คลินิคนอกเวลา / Gastoenterology ตารางเวร R1 Resident Neurology
+table_type = "ตารางเวร R1"  # สามารถเปลี่ยนเป็น Transplant ตารางประจำเดือน คลินิคนอกเวลา / Gastoenterology ตารางเวร R1 Resident Neurology
 
 # ตั้งค่า path สำหรับ wkhtmltoimage
 WKHTMLTOIMAGE_PATH = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage.exe"
