@@ -4,7 +4,11 @@ import imgkit
 from config import WKHTMLTOIMAGE_PATH, table_type, month_filter, year_filter, month_names, title_mapping
 
 def export_to_image(html_content):
-    """ส่งออกตารางเป็นรูปภาพ"""
+    """ส่งออกตารางเป็นรูปภาพตามค่าในไฟล์ config"""
+    return export_to_image_with_params(html_content, table_type, month_filter, year_filter)
+
+def export_to_image_with_params(html_content, table_type_param, month_filter_param, year_filter_param):
+    """ส่งออกตารางเป็นรูปภาพโดยรับพารามิเตอร์โดยตรง"""
     # ตั้งค่า path สำหรับ wkhtmltoimage
     config = imgkit.config(wkhtmltoimage=WKHTMLTOIMAGE_PATH)
     
@@ -21,8 +25,8 @@ def export_to_image(html_content):
         imgkit.from_file(temp_html_file, temp_png_file, config=config)
         
         # กำหนดชื่อไฟล์เป้าหมาย
-        target_html_file = f"{table_type}_{month_filter}_{year_filter}.html"
-        target_png_file = f"{table_type}_{month_filter}_{year_filter}.png"
+        target_html_file = f"{table_type_param}_{month_filter_param}_{year_filter_param}.html"
+        target_png_file = f"{table_type_param}_{month_filter_param}_{year_filter_param}.png"
         
         # เปลี่ยนชื่อไฟล์
         if os.path.exists(target_html_file):
@@ -33,9 +37,9 @@ def export_to_image(html_content):
         os.rename(temp_html_file, target_html_file)
         os.rename(temp_png_file, target_png_file)
         
-        month_name = month_names.get(month_filter, f"เดือน {month_filter}")
-        title = title_mapping.get(table_type, f"ตาราง {table_type} ")
-        print(f"สร้างตาราง {title} สำหรับเดือน {month_name} {year_filter} เรียบร้อยแล้ว")
+        month_name = month_names.get(month_filter_param, f"เดือน {month_filter_param}")
+        title = title_mapping.get(table_type_param, f"ตาราง {table_type_param}")
+        print(f"สร้างตาราง {title} สำหรับเดือน {month_name} {year_filter_param} เรียบร้อยแล้ว")
         
         return True
         
