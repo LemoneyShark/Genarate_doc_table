@@ -101,8 +101,15 @@ def generate_html(table_df):
         word-wrap: break-word;
         line-height: 1.5;
     }}
+
+    table thead tr {{
+    border-collapse: collapse;
+    }}
     
+    /* ------------ แสดงส่วนหัวข้อ ----------- */
+
     th {{
+        padding: 8px 4px;
         background-color: #1B56FD;
         color: white;
         font-weight: bold;
@@ -111,11 +118,19 @@ def generate_html(table_df):
         font-size: 14px; /* ลดขนาดตัวอักษรสำหรับหัวตาราง */
         white-space: nowrap; /* headers ยังคงเป็นบรรทัดเดียวเสมอ */
     }}
-    
-    /* แสดงส่วนที่ว่างในหัวข้อเป็นโปร่งใส */
+
+    /* ------------ แสดงส่วนที่ว่างในหัวข้อเป็นโปร่งใส ----------- */
+
     th:empty {{
-        background-color: transparent;
+        background-color: #1B56FD;
         border: none;
+        color: transparent; /* ทำให้ข้อความหายไป (ถ้ามี) */
+        padding: 0px; /* ลด padding ให้น้อยลง แต่ไม่เป็น 0 */
+    }}
+
+    thead th {{
+    border-collapse: collapse;
+    border: 1px solid #0040CF; /* border สีเข้มกว่าเดิมเล็กน้อย */
     }}
     
     /* ให้หัวข้อที่มีค่าว่างแสดงเป็นช่องว่าง */

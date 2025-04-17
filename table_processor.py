@@ -201,12 +201,13 @@ def process_table_data(df):
             "CVT": 1,"CRITICAL CARE": 2,"PAIN": 3,"PED": 4,
             "เวร Day": 1,"เวรทั้งวัน": 2,
             "19 B-2": 1,"19 B-1": 2,"25 C-128 C": 3,"26 A27 C":4,"26 B27 C":5,
-            "วังบน": 1,"วังล่าง": 2,"ICU 1": 3,"ICU 2":4,"CCU":5,"ER":6,"COVID":7,"COVID 2 (จก4)":8,"OPD 9 บ่าย":9,"OPD 9 เช้าวันหยุด":10,
+            "วังบน": 1,"วังล่าง": 2,"ICU 1": 3,"ICU1": 3,"ICU 2":4,"ICU2":4,"CCU":5,"ER":6,"COVID":7,"COVID 2 (จก4)":8,"OPD 9 บ่าย":9,"OPD 9 เช้าวันหยุด":10,
             #Cardiology
             "F1": 1,"F2": 2,"F3 MRI / ECHO": 3,"F3 EP":4,"F3 HF":5,"F3 Cath":6,
             #Nephrology
             "1st call": 1,"Standby": 2,"F3":3,
-            "Stroke": 10,"Non Stroke": 11,
+            "Stroke": 1,"Epliepsy": 12,
+            "Neuroimmuno": 13,"Neurocognitive": 14,"Neuromuscular":15,
             #กุมาร R1
             "ภส.20C, 19C1-C2 18C 21C, 28B":1,"สก.15G1 ,G2 สก. 6":2,"Nursery":7,"OPD No.9":8,
             #กุมาร R2
@@ -325,13 +326,17 @@ def process_table_data(df):
         
         # เพิ่มชื่อลงในตาราง
         current_value = days_data[date_key].get(column_key, "")
-        
+
         if current_value:
             # เก็บชื่อเป็น list
             if isinstance(current_value, list):
-                days_data[date_key][column_key].append(name)
+                # ตรวจสอบว่าชื่อซ้ำหรือไม่ก่อนเพิ่ม
+                if name not in current_value:
+                    days_data[date_key][column_key].append(name)
             else:
-                days_data[date_key][column_key] = [current_value, name]
+                # ถ้าชื่อแรกไม่ซ้ำกับชื่อที่จะเพิ่ม
+                if current_value != name:
+                    days_data[date_key][column_key] = [current_value, name]
         else:
             days_data[date_key][column_key] = name
     
