@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, jsonify, send_file, make_resp
 from data_loader import load_schedule_data
 from table_processor import process_table_data
 from html_generator import generate_html
-from image_exporter import export_to_image
+from image_exporter import export_to_image, export_to_image_with_params
 from config import month_filter as default_month_filter, year_filter as default_year_filter, department_filter as default_department_filter, table_type as default_table_type
 
 
@@ -18,43 +18,34 @@ def index():
 def gen_schedule():
     try:
         # รับค่าจาก form data
-        month = int(request.form.get("month_filter", default_month_filter))
-        year = int(request.form.get("year_filter", default_year_filter))
-        department = request.form.get("department_filter", default_department_filter)
-        schedule_type = request.form.get("table_type", default_table_type)
+        month = int(request.form.get("month_filter"))
+        year = int(request.form.get("year_filter"))
+        department = request.form.get("department_filter")
+        schedule_type = request.form.get("table_type")
         
         # ตรวจสอบข้อมูลที่รับมา
         if not (1 <= month <= 12):
             return jsonify({"error": "เดือนต้องอยู่ระหว่าง 1-12"}), 400
+            
+        # สร้างชื่อไฟล์เป้าหมาย
+        output_filename = f"{schedule_type}_{month}_{year}.png"
         
-        # อัปเดตค่าใน config (อาจต้องสร้างฟังก์ชันเพิ่มเติมในโมดูลอื่น)
-        from config import month_filter, year_filter, department_filter, table_type
-        import config
-        
-        # กำหนดค่าชั่วคราวในรันไทม์
-        config.month_filter = month
-        config.year_filter = year
-        config.department_filter = department
-        config.table_type = schedule_type
-        
-        # 1.load Data
-        df = load_schedule_data()
+        # 1.load Data ด้วยพารามิเตอร์ใหม่
+        df = load_schedule_data(month, year, department)
         if df is None:
             return jsonify({"error": "ไม่สามารถโหลดข้อมูลได้"}), 400
         
         # 2.Process
-        table_df, column_keys = process_table_data(df)
+        table_df, column_keys = process_table_data(df, month, year, department, schedule_type)
         
         # 3.Create HTML
-        html_content = generate_html(table_df)
+        html_content = generate_html(table_df, month, year, department, schedule_type)
         
-        # 4.Export
-        success = export_to_image(html_content)
+        # 4.Export โดยส่งพารามิเตอร์ไปด้วย
+        success = export_to_image_with_params(html_content, schedule_type, month, year)
+        
         if not success:
             return jsonify({"error": "เกิดข้อผิดพลาดในการสร้างรูปภาพ"}), 500
-        
-        # 5.ส่งไฟล์กลับไปให้ผู้ใช้
-        output_filename = f"{schedule_type}_{month}_{year}.png"
         
         # ตรวจสอบว่าไฟล์มีอยู่จริง
         if not os.path.exists(output_filename):

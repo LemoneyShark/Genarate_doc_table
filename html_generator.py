@@ -7,7 +7,11 @@ def highlight_weekend_rows(row):
         return ['background-color: #60B5FF'] * len(row)
     return ['background-color: #AFDDFF'] * len(row)
 
-def generate_html(table_df):
+def generate_html(table_df, month=None, year=None, department=None, table_type_param=None):
+    month = month if month is not None else month_filter
+    year = year if year is not None else year_filter
+    department = department if department is not None else department_filter
+    table_type_param = table_type_param if table_type_param is not None else table_type
     """สร้าง HTML จาก DataFrame"""
     # ดึงคอลัมน์จาก MultiIndex
     day_col = [col for col in table_df.columns if col[3] == "Day"]  # ปรับ index ตามโครงสร้างใหม่

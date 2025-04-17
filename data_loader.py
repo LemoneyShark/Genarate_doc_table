@@ -9,7 +9,13 @@ def connect_to_mongodb():
     collection = db["doc"]
     return collection
 
-def load_schedule_data():
+def load_schedule_data(month=None, year=None, department=None):
+    
+    month = month if month is not None else month_filter
+    year = year if year is not None else year_filter
+    department = department if department is not None else department_filter
+    table_type_param = table_type_param if table_type_param is not None else table_type
+
     """โหลดข้อมูลตารางจาก MongoDB"""
     collection = connect_to_mongodb()
     

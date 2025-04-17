@@ -1,7 +1,7 @@
 import pandas as pd
 import re
 from utils import natural_sort_key, custom_sort_key
-from config import table_type
+from config import month_filter, year_filter, department_filter, table_type
 
 def format_ward_display(ward):
     """ฟังก์ชันสำหรับจัดรูปแบบการแสดงผลของ ward"""
@@ -36,7 +36,13 @@ def format_ward_display(ward):
     # กรณีอื่นๆ ไม่ต้องเปลี่ยนแปลง
     return ward
 
-def process_table_data(df):
+def process_table_data(df, month=None, year=None, department=None, table_type_param=None):
+
+    month = month if month is not None else month_filter
+    year = year if year is not None else year_filter
+    department = department if department is not None else department_filter
+    table_type_param = table_type_param if table_type_param is not None else table_type
+    
     """ประมวลผลข้อมูลตารางและจัดรูปแบบ"""
     # 1. ดึง role จากข้อมูล
     roles = df["role"].dropna().unique().tolist() if "role" in df.columns else ["Staff"]
